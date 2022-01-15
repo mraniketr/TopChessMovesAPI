@@ -24,7 +24,7 @@ async function Scrapper(code) {
 
     resultObj = await generateObj($, selectedData);
 
-    console.log(resultObj.id, "---", resultObj.name, "---", resultObj.moves);
+    // console.log(resultObj.id, "---", resultObj.name, "---", resultObj.moves);
     return { name: resultObj.name, moves: resultObj.moves };
   } catch (e) {
     console.log(e);
