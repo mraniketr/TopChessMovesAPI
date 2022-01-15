@@ -18,5 +18,8 @@ app.get("/:code/", async (req, res) => {
 app.get("/:code/*", async (req, res) => {
   res.send(await nextMove(req.params.code, req.path));
 });
+const port = process.env.PORT || 8080;
 
-app.listen(3000);
+app.listen(port, () => {
+  logger.info(`App running on port ${port}.`);
+});
