@@ -1,7 +1,7 @@
 const express = require("express");
 const { Scrapper, ScrapperAll, nextMove } = require("./Scrapper");
 const app = express();
-
+// Caching middel ware
 app.use((req, res, next) => {
   res.set("Cache-control", `public, max-age=180`);
   next();
