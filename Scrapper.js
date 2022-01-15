@@ -6,20 +6,29 @@ async function idGenerator(code) {
   return offset[code.charAt(0)] + Number(code.substring(1)) + 1;
 }
 
-const URL = "https://www.chessgames.com/chessecohelp.html";
-async function Scrapper(code) {
-  const result = await request.get(URL);
-  console.log(code);
-  const $ = cheerio.load(result);
-  const rowId = await idGenerator(code);
-  const selectedData = $(`table>tbody>tr:nth-child(${rowId})`);
+async function generateObj($, selectedData) {
   const id = $($(selectedData).find("td")[0]).text();
   const name = $($(selectedData).find("td")[1]).find("b").text();
   const moves = $($(selectedData).find("td")[1]).find("font>font").text();
+  return { id: id, name: name, moves: moves };
+}
+const URL = "https://www.chessgames.com/chessecohelp.html";
+async function Scrapper(code) {
+  try {
+    const result = await request.get(URL);
+    //   console.log(code);
+    const $ = cheerio.load(result);
+    const rowId = await idGenerator(code);
+    const selectedData = $(`table>tbody>tr:nth-child(${rowId})`);
 
-  //   console.log(selectedData);
-  console.log(id, "---", name, "---", moves);
-  return { name: name, moves: moves };
+    resultObj = await generateObj($, selectedData);
+
+    console.log(resultObj.id, "---", resultObj.name, "---", resultObj.moves);
+    return { name: resultObj.name, moves: resultObj.moves };
+  } catch (e) {
+    console.log(e);
+    return "INVALID_URL";
+  }
 }
 
 // Converts each record into individual json object and merges into a single array.
@@ -28,13 +37,15 @@ async function ScrapperAll() {
 
   const $ = cheerio.load(result);
   const selectedData = [];
-  $(`table>tbody>tr`).each((index, element) => {
-    const id = $($(element).find("td")[0]).text();
-    const name = $($(element).find("td")[1]).find("b").text();
-    const moves = $($(element).find("td")[1]).find("font>font").text();
-    // console.log(name);
-    selectedData.push({ id: id, name: name, moves: moves });
+  $(`table>tbody>tr`).each(async (index, element) => {
+    resultObj = await generateObj($, element);
+    selectedData.push(resultObj);
   });
   return selectedData;
 }
-module.exports = { Scrapper, ScrapperAll };
+
+async function nextMove(code, moves) {
+  console.log(code);
+  console.log(moves.substring(4));
+}
+module.exports = { Scrapper, ScrapperAll, nextMove };
