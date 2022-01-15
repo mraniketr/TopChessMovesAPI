@@ -1,0 +1,26 @@
+{
+  "name": "topchessmovesapi",
+  "version": "1.0.0",
+  "description": "HackerEarch Hiring Api solution Aniket Rai",
+  "main": "index.js",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.10",
+    "express": "^4.17.2",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mraniketr/TopChessMovesAPI.git"
+  },
+  "author": "Aniket Rai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mraniketr/TopChessMovesAPI/issues"
+  },
+  "homepage": "https://github.com/mraniketr/TopChessMovesAPI#readme"
+}
