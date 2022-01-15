@@ -21,5 +21,5 @@ app.get("/:code/*", async (req, res) => {
 const port = process.env.PORT || 8080;
 
 app.listen(port, () => {
-  logger.info(`App running on port ${port}.`);
+  console.log(`App running on port ${port}.`);
 });
