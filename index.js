@@ -2,6 +2,11 @@ const express = require("express");
 const { Scrapper, ScrapperAll, nextMove } = require("./Scrapper");
 const app = express();
 
+app.use((req, res, next) => {
+  res.set("Cache-control", `public, max-age=180`);
+  next();
+});
+
 app.get("/", async (req, res) => {
   res.send(await ScrapperAll());
 });
