@@ -1,8 +1,10 @@
 const request = require("request-promise");
 const cheerio = require("cheerio");
 
+const offset = { A: 0, B: 100, C: 200, D: 300, E: 400 };
+const URL = "https://www.chessgames.com/chessecohelp.html";
+
 async function idGenerator(code) {
-  const offset = { A: 0, B: 100, C: 200, D: 300, E: 400 };
   return offset[code.charAt(0)] + Number(code.substring(1)) + 1;
 }
 
@@ -12,7 +14,6 @@ async function generateObj($, selectedData) {
   const moves = $($(selectedData).find("td")[1]).find("font>font").text();
   return { id: id, name: name, moves: moves };
 }
-const URL = "https://www.chessgames.com/chessecohelp.html";
 async function Scrapper(code) {
   try {
     const result = await request.get(URL);
@@ -45,7 +46,20 @@ async function ScrapperAll() {
 }
 
 async function nextMove(code, moves) {
-  console.log(code);
-  console.log(moves.substring(4));
+  const currentMoveCount = moves
+    .substring(4)
+    .replace(/^\/|\/$/g, "")
+    .split("/").length;
+
+  const result = await request.get(URL);
+  const $ = cheerio.load(result);
+  const rowId = await idGenerator(code);
+  const selectedData = $(`table>tbody>tr:nth-child(${rowId})`);
+  // Getting specified object using id
+  resultObj = await generateObj($, selectedData);
+  const nextMovesis = resultObj.moves.split(" ").filter((x) => x.length > 1)[
+    currentMoveCount
+  ];
+  return { nextMove: nextMovesis };
 }
 module.exports = { Scrapper, ScrapperAll, nextMove };
