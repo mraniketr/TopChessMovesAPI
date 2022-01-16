@@ -7,7 +7,6 @@ https://assessment.hackerearth.com/challenges/hiring/leadschool-sde-nodejs-and-s
 
 # Problem Statement
 
-####Unordered list (plus sign and nested)
                 
 + Scrape data every time from https://www.chessgames.com/chessecohelp.html
 + Create api GET /
