@@ -8,7 +8,7 @@ https://assessment.hackerearth.com/challenges/hiring/leadschool-sde-nodejs-and-s
 # Problem Statement
 
 1. Scrape data every time from https://www.chessgames.com/chessecohelp.html
-2. Create api GET / 
+2. Create api GET // 
  To get all the data from source website
 3. GET /<CODE>
 To get all the data about the current code
